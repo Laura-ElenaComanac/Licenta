@@ -2,6 +2,9 @@ package com.license.ProjectSocialNetwork.repository;
 
 
 import com.license.ProjectSocialNetwork.model.User;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends NetworkRepository<User,Long> {
+
+@Repository
+public interface UserRepository extends SocialRepository<User, Long> {
 }
