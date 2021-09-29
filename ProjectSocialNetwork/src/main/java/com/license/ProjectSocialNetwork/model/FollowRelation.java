@@ -3,9 +3,7 @@ package com.license.ProjectSocialNetwork.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalTime;
 
 @Entity
@@ -17,6 +15,7 @@ import java.time.LocalTime;
 @Data @Builder
 public class FollowRelation extends BaseEntity<Long> {
     private LocalTime date;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @JsonBackReference

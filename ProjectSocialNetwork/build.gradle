@@ -4,6 +4,8 @@ plugins {
 	id 'java'
 }
 
+apply plugin: 'war'
+
 group = 'com.license'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
@@ -13,7 +15,7 @@ repositories {
 }
 
 dependencies {
-	implementation 'mysql:mysql-connector-java:8.0.26'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -21,13 +23,17 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+	implementation group: 'javax.xml.bind', name: 'jaxb-api'
+	implementation 'mysql:mysql-connector-java'
 
-	//implementation group: 'org.hibernate.validator:hibernate-validator'
-	//implementation 'org.springframework.boot:spring-boot-starter-security:2.5.3'
-	//implementation 'org.springframework.boot:spring-boot-starter-websocket:2.5.3'
-	//testImplementation 'org.springframework.boot:spring-boot-starter-test:2.5.3'
-	//testImplementation 'org.springframework.security:spring-security-test:5.5.1'
+	//implementation group: 'org.springframework', name: 'spring-tx'
+	//implementation group: 'org.springframework.boot', name: 'spring-boot-autoconfigure'
+	//implementation group: 'org.springframework.boot', name: 'spring-boot'
+	//implementation group: 'org.springframework.data', name: 'spring-data-jpa'
 
+	compile group: 'org.apache.logging.log4j', name: 'log4j-core'
+	compile group: 'org.apache.logging.log4j', name: 'log4j-api'
 }
 
 test {

@@ -14,10 +14,11 @@ import java.util.List;
 @Data @Builder
 public class User extends BaseEntity<Long> {
     @Column(unique = true)
-    private String username; // refers
+    private String username;
     private String password;
     private String name;
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private Type type;
     private String email;
     private String location;
 
