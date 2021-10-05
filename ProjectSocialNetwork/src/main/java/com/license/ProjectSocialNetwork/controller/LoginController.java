@@ -29,9 +29,4 @@ public class LoginController {
         return users;
     }
 
-/*    @GetMapping("test")
-    public @ResponseBody
-    Integer test() {
-        return 0;
-    }*/
 }
