@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -25,7 +26,14 @@ public class LoginController {
     //@RequestMapping(value = "/users", method= RequestMethod.GET)
     List<User> getUsers() {
         log.info("getUsers(): Called...");
-        List<User> users = userService.findAll();
+        List<User> users = new LinkedList<>();
+        try {
+            users = userService.findAll();
+            log.info(users.toString() + " returned");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         return users;
     }
 
