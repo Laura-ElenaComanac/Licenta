@@ -26,6 +26,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 	implementation group: 'javax.xml.bind', name: 'jaxb-api'
 	implementation 'mysql:mysql-connector-java'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket'
 
 	//implementation group: 'org.springframework', name: 'spring-tx'
 	//implementation group: 'org.springframework.boot', name: 'spring-boot-autoconfigure'

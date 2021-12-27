@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projyproject/screens/intro_screen.dart';
 import 'package:projyproject/screens/login_screen.dart';
+import 'package:projyproject/screens/test_screen.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class MenuDrawer extends StatelessWidget {
   }
 
   List<Widget> buildMenuItems(BuildContext context) {
-    final List<String> menuTitles = ['Login', 'Home'];
+    final List<String> menuTitles = ['Login', 'Home', 'Test'];
     List<Widget> menuItems = [];
     menuItems.add(const DrawerHeader(
         decoration: BoxDecoration(color: Colors.purple),
@@ -33,6 +34,9 @@ class MenuDrawer extends StatelessWidget {
                 break;
               case 'Login':
                 screen = LoginScreen();
+                break;
+              case 'Test':
+                screen = TestScreen();
                 break;
             }
             Navigator.of(context)

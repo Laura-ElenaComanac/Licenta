@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:projyproject/data/http_helper.dart';
 import 'package:projyproject/repository/database.dart';
 import 'package:projyproject/model/user.dart';
 import 'package:projyproject/repository/fake_repo.dart';
@@ -13,7 +14,26 @@ class Bloc {
   Stream<List<UserEntry>> get homeScreenEntries => _users;
 
   Bloc() : db = Database() {
+    updateUsersDB();
     _users = db.watchUsers();
+  }
+
+  void updateUsersDB() async {
+    HttpHelper h = HttpHelper();
+    List<User> users = await h.getUsers();
+
+    for (var user in users) {
+      if (db.entryById(int.parse(user.id)) == null) {
+        final userC = LocalUsersCompanion.insert(
+            username: user.username,
+            password: user.password,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            gender: user.gender);
+
+        addEntry(userC);
+      }
+    }
   }
 
   UserEntry get user {

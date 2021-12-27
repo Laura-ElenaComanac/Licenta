@@ -49,4 +49,25 @@ public class User extends BaseEntity<Long> {
     @JsonManagedReference
     @OneToMany(mappedBy = "followerUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<FollowRelation> followerRelations = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", type=" + type +
+                ", email='" + email + '\'' +
+                ", location='" + location + '\'' +
+                ", gender='" + gender + '\'' +
+                ", birthday=" + birthday +
+                ", posts=" + posts +
+                ", comments=" + comments +
+                ", messagesFrom=" + messagesFrom +
+                ", messagesTo=" + messagesTo +
+                ", activeUserRelations=" + activeUserRelations +
+                ", followerRelations=" + followerRelations +
+                '}';
+    }
 }

@@ -9,11 +9,10 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Service("userService")
-@Transactional
+@Service //("userService")
+//@Transactional
 public class UserServiceImpl implements UserService{
     @PersistenceContext
     private EntityManager em;
@@ -25,18 +24,28 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<User> findAll() {
-        log.traceEntry("Returning all users...");
-        List<User> users;
-        try {
-            users = userRepository.findAll();
-            log.trace("Returned all users");
-        }
-        catch (Exception ex){
-            log.error(ex);
-            System.out.println("Error Service "+ex);
-            return null;
-        }
-        log.traceExit();
-        return users;
+//        log.traceEntry("Returning all users...");
+//        List<User> users = new LinkedList<>();
+//        try {
+//            users = userRepository.findAll();
+//            log.trace("Returned all users");
+//        }
+//        catch (Exception ex){
+//            log.error(ex);
+//            System.out.println("Error Service "+ex);
+//            return null;
+//        }
+//        log.traceExit();
+        //return users;
+//
+//        System.out.println("BEGIN FIND ALL SERVICE");
+//
+//        userRepository.findAll().forEach(user -> {
+//            System.out.printf("user");
+//        });
+//
+//        System.out.println("END FIND ALL SERVICE");
+
+        return userRepository.findAll();
     }
 }

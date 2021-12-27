@@ -3,25 +3,36 @@ import 'package:flutter/material.dart';
 
 @immutable
 class User {
-  final String _id;
+  String _id;
   String get id => _id;
 
-  final String _username;
+  String _username;
   String get username => _username;
 
-  final String _password;
+  String _password;
   String get password => _password;
 
-  final String _firstname;
+  String _firstname;
   String get firstname => _firstname;
 
-  final String _lastname;
+  String _lastname;
   String get lastname => _lastname;
 
-  final String _gender;
+  String _gender;
   String get gender => _gender;
 
-  const User({
+  factory User.fromJson(Map<String, dynamic> usersMap) {
+    return User(
+      id: usersMap['id'].toString() as String,
+      username: usersMap['username'] as String,
+      password: usersMap['password'] as String,
+      firstname: usersMap['firstName'] as String,
+      lastname: usersMap['lastName'] as String,
+      gender: usersMap['gender'] as String,
+    );
+  }
+
+  User({
     required String id,
     required String username,
     required String password,
