@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +32,18 @@ class User {
       lastname: usersMap['lastName'] as String,
       gender: usersMap['gender'] as String,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> usersMap = {
+      'id': _id,
+      'username': _username,
+      'password': _password,
+      'firstName': _firstname,
+      'lastName': _lastname,
+      'gender': _gender
+    };
+    return usersMap;
   }
 
   User({
@@ -73,7 +87,9 @@ class User {
 
   @override
   String toString() {
-    return "username: " +
+    return "id: " +
+        _id +
+        ", username: " +
         _username +
         ", password: " +
         _password +

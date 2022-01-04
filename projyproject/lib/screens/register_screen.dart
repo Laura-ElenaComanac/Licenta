@@ -98,6 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 );
               } else {
                 final user = LocalUsersCompanion.insert(
+                    id: '',
                     username: txtUsername.text,
                     password: txtPassword.text,
                     firstname: txtFirstName.text,

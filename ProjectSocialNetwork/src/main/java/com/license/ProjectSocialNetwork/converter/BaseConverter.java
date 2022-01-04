@@ -1,11 +1,10 @@
 package com.license.ProjectSocialNetwork.converter;
 
 
-import com.license.ProjectSocialNetwork.dto.BaseDTO;
+import com.license.ProjectSocialNetwork.controller.dto.BaseDTO;
 import com.license.ProjectSocialNetwork.model.BaseEntity;
 
 import java.io.Serializable;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;

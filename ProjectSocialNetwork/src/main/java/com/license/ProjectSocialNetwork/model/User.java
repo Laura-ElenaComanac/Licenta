@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,18 +12,19 @@ import java.util.List;
 @EqualsAndHashCode
 @NoArgsConstructor @AllArgsConstructor
 @Data @Builder
+@ToString
 public class User extends BaseEntity<Long> {
     @Column(unique = true)
     private String username;
     private String password;
     private String firstName;
     private String lastName;
-    @Enumerated(EnumType.STRING)
-    private Type type;
-    private String email;
-    private String location;
+//    @Enumerated(EnumType.STRING)
+//    private Type type;
+//    private String email;
+//    private String location;
     private String gender;
-    private LocalDate birthday;
+//    private LocalDate birthday;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -53,21 +53,11 @@ public class User extends BaseEntity<Long> {
     @Override
     public String toString() {
         return "User{" +
+                "id='" + getId() + '\'' +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", type=" + type +
-                ", email='" + email + '\'' +
-                ", location='" + location + '\'' +
-                ", gender='" + gender + '\'' +
-                ", birthday=" + birthday +
-                ", posts=" + posts +
-                ", comments=" + comments +
-                ", messagesFrom=" + messagesFrom +
-                ", messagesTo=" + messagesTo +
-                ", activeUserRelations=" + activeUserRelations +
-                ", followerRelations=" + followerRelations +
-                '}';
+                ", gender='" + gender ;
     }
 }

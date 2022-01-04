@@ -8,7 +8,7 @@ part of 'database.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class UserEntry extends DataClass implements Insertable<UserEntry> {
-  final int id;
+  final String id;
   final String username;
   final String password;
   final String firstname;
@@ -25,7 +25,7 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return UserEntry(
-      id: const IntType()
+      id: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       username: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}username'])!,
@@ -42,7 +42,7 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['id'] = Variable<String>(id);
     map['username'] = Variable<String>(username);
     map['password'] = Variable<String>(password);
     map['firstname'] = Variable<String>(firstname);
@@ -66,7 +66,7 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return UserEntry(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       username: serializer.fromJson<String>(json['username']),
       password: serializer.fromJson<String>(json['password']),
       firstname: serializer.fromJson<String>(json['firstname']),
@@ -78,7 +78,7 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'username': serializer.toJson<String>(username),
       'password': serializer.toJson<String>(password),
       'firstname': serializer.toJson<String>(firstname),
@@ -88,7 +88,7 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
   }
 
   UserEntry copyWith(
-          {int? id,
+          {String? id,
           String? username,
           String? password,
           String? firstname,
@@ -131,7 +131,7 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
 }
 
 class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> username;
   final Value<String> password;
   final Value<String> firstname;
@@ -146,19 +146,20 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
     this.gender = const Value.absent(),
   });
   LocalUsersCompanion.insert({
-    this.id = const Value.absent(),
+    required String id,
     required String username,
     required String password,
     required String firstname,
     required String lastname,
     required String gender,
-  })  : username = Value(username),
+  })  : id = Value(id),
+        username = Value(username),
         password = Value(password),
         firstname = Value(firstname),
         lastname = Value(lastname),
         gender = Value(gender);
   static Insertable<UserEntry> custom({
-    Expression<int>? id,
+    Expression<String>? id,
     Expression<String>? username,
     Expression<String>? password,
     Expression<String>? firstname,
@@ -176,7 +177,7 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
   }
 
   LocalUsersCompanion copyWith(
-      {Value<int>? id,
+      {Value<String>? id,
       Value<String>? username,
       Value<String>? password,
       Value<String>? firstname,
@@ -196,7 +197,7 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (username.present) {
       map['username'] = Variable<String>(username.value);
@@ -236,11 +237,12 @@ class $LocalUsersTable extends LocalUsers
   final String? _alias;
   $LocalUsersTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+  late final GeneratedColumn<String?> id = GeneratedColumn<String?>(
       'id', aliasedName, false,
-      typeName: 'INTEGER',
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      typeName: 'TEXT',
+      requiredDuringInsert: true);
   final VerificationMeta _usernameMeta = const VerificationMeta('username');
   late final GeneratedColumn<String?> username = GeneratedColumn<String?>(
       'username', aliasedName, false,
@@ -290,6 +292,8 @@ class $LocalUsersTable extends LocalUsers
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('username')) {
       context.handle(_usernameMeta,
@@ -325,7 +329,7 @@ class $LocalUsersTable extends LocalUsers
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   UserEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
     return UserEntry.fromData(data, _db,
