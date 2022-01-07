@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projyproject/screens/intro_screen.dart';
 import 'package:projyproject/screens/login_screen.dart';
-import 'package:projyproject/screens/test_screen.dart';
+import 'package:projyproject/data/websocket_helper_widget.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({Key? key}) : super(key: key);
@@ -36,7 +36,7 @@ class MenuDrawer extends StatelessWidget {
                 screen = LoginScreen();
                 break;
               case 'Test':
-                //screen = TestScreen();
+                //screen = WebSocketHelperWidget();
                 break;
             }
             Navigator.of(context)

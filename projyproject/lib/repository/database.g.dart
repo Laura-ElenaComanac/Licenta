@@ -329,7 +329,7 @@ class $LocalUsersTable extends LocalUsers
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   UserEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
     return UserEntry.fromData(data, _db,

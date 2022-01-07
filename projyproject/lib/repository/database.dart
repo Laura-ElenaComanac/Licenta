@@ -13,6 +13,9 @@ class LocalUsers extends Table {
   TextColumn get firstname => text().withLength(min: 1, max: 100)();
   TextColumn get lastname => text().withLength(min: 1, max: 100)();
   TextColumn get gender => text().withLength(min: 1, max: 100)();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }
 
 @UseMoor(tables: [LocalUsers])

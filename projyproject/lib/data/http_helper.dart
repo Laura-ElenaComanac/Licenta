@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:projyproject/model/user.dart';
 import 'package:projyproject/repository/database.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:stomp_dart_client/stomp.dart';
+import 'package:stomp_dart_client/stomp_config.dart';
+import 'package:stomp_dart_client/stomp_frame.dart';
+import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class HttpHelper {
@@ -21,7 +25,7 @@ class HttpHelper {
   var logger = Logger();
 
   // final channel = WebSocketChannel.connect(
-  //   Uri.parse('wss://localhost:8080/app/destination'),
+  //   Uri.parse('ws://localhost:8080/topic/destination'),
   // );
 
   void readUsers() async {
@@ -31,6 +35,8 @@ class HttpHelper {
   }
 
   Future<List<User>> getUsers() async {
+    logger.d('Getting users from the server');
+
     List<User> users = [];
 
     try {
@@ -38,7 +44,13 @@ class HttpHelper {
       http.Response result = await http.get(uri);
 
       var data = json.decode(result.body) as List;
-      users = data.map((e) => User.fromJson(e)).toList();
+
+      for (var user in data) {
+        User myuser = User.fromJson(user);
+        users.add(myuser);
+      }
+
+      logger.d('Got users from the server: ' + data.toString());
     } catch (e) {
       print(e);
     }
@@ -70,15 +82,17 @@ class HttpHelper {
       var data = json.decode(result.body);
       myuser = User.fromJson(data);
     } catch (e) {
-      db.insertUser(LocalUsersCompanion.insert(
-          id: myuser!.id,
-          username: myuser.username,
-          password: myuser.password,
-          firstname: myuser.firstname,
-          lastname: myuser.lastname,
-          gender: myuser.gender));
+      var rng = Random();
 
-      logger.d('Added user in local db: ' + myuser.toString());
+      db.insertUser(LocalUsersCompanion.insert(
+          id: 'str' + rng.nextInt(1000000).toString(),
+          username: usera.username,
+          password: usera.password,
+          firstname: usera.firstname,
+          lastname: usera.lastname,
+          gender: usera.gender));
+
+      logger.d('Added fake user in local db: ' + myuser.toString());
 
       //thread
       print(e);

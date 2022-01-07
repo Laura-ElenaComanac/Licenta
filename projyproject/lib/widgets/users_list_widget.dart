@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projyproject/data/websocket_helper.dart';
 import 'package:projyproject/repository/database.dart';
 import 'package:projyproject/model/user.dart';
 import 'package:projyproject/view_model/bloc.dart';
@@ -43,6 +44,7 @@ class _UsersListWidgetState extends State<UsersListWidget> {
           final struser = myuser.toString();
 
           return Dismissible(
+            key: UniqueKey(),
             confirmDismiss: (DismissDirection direction) async {
               return await showDialog(
                 context: context,
@@ -64,7 +66,6 @@ class _UsersListWidgetState extends State<UsersListWidget> {
                 },
               );
             },
-            key: UniqueKey(),
             onDismissed: (direction) {
               widget.deleteFunction(index);
             },

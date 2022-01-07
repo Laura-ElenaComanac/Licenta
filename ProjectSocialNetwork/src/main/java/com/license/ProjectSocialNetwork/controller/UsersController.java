@@ -8,11 +8,14 @@ import com.license.ProjectSocialNetwork.services.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 @Controller
 //@RequestMapping( value = "/" )
@@ -25,23 +28,34 @@ public class UsersController {
 
     @Autowired
     private UserConverter userConverter;
-//    private SimpMessagingTemplate simpMessagingTemplate;
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+
+    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(10);
+
+//    @MessageMapping("/hello")
+//    @SendTo("/topic/message")
+//    public List<UserDTO> greeting(){
+//        log.info("greeting(): Called...");
 //
-//    @MessageMapping("/destination")
-//    @SendTo("/topic/destination")
-//    public List<User> sendMessage(){
-//        log.info("sendMessage(): Called...");
-////        List<User> users = userService.findAll();
-////        simpMessagingTemplate.convertAndSend("/destination/" + to, users);
+//        List<UserDTO> users = userConverter.convertModelsToDTOsList(userService.findAllUsers());
+//        log.info("sending " + users);
 //
-//        List<User> users = userService.findAll();
+//        simpMessagingTemplate.convertAndSend("/topic/message", users);
 //        return users;
+//    }
+
+//    @RequestMapping("socket")
+//    public @ResponseBody
+//    String getWebSocket() {
+//        log.info("getWebSocket(): Called...");
+//        return "ws-broadcast";
 //    }
 
     @GetMapping("users")
     public @ResponseBody
     List<UserDTO> getUsers() {
-        log.info("getUsers(): Called...");
         List<User> users = new LinkedList<>();
         try {
             users = userService.findAllUsers();
@@ -74,7 +88,11 @@ public class UsersController {
 
         System.out.println("User: " + user);
 
-        return userConverter.convertModelToDto(user);
+        UserDTO userDTO = userConverter.convertModelToDto(user);
+        simpMessagingTemplate.convertAndSend("/topic/message", userDTO);
+
+        log.info("sent " + user);
+        return userDTO;
     }
 
 
