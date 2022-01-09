@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
@@ -14,13 +15,11 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 class HttpHelper {
   // http://localhost:8080/users
 
-  final String authority = 'localhost:8080';
+  final String authority = '192.168.0.118:8080';
   final String path = 'users';
   final String addpath = 'user/add';
   final String updatepath = 'user/update';
   final String deletepath = 'user/delete';
-
-  late final Database db;
 
   var logger = Logger();
 
@@ -74,28 +73,14 @@ class HttpHelper {
     };
 
     User? myuser;
-
     try {
       Uri uri = Uri.http(authority, addpath, parameters);
       http.Response result = await http.post(uri);
 
       var data = json.decode(result.body);
       myuser = User.fromJson(data);
-    } catch (e) {
-      var rng = Random();
-
-      db.insertUser(LocalUsersCompanion.insert(
-          id: 'str' + rng.nextInt(1000000).toString(),
-          username: usera.username,
-          password: usera.password,
-          firstname: usera.firstname,
-          lastname: usera.lastname,
-          gender: usera.gender));
-
-      logger.d('Added fake user in local db: ' + myuser.toString());
-
-      //thread
-      print(e);
+    } catch (error) {
+      return null;
     }
 
     return myuser;

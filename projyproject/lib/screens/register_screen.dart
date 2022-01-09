@@ -1,5 +1,6 @@
 import 'package:f_logs/model/flog/flog.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:projyproject/repository/database.dart';
 import 'package:projyproject/model/user.dart';
 import 'package:projyproject/repository/fake_repo.dart';
@@ -33,6 +34,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Logger logger = Logger();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registration'),
@@ -105,35 +108,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     lastname: txtLastName.text,
                     gender: txtGender.text);
 
-                try {
-                  bloc.addEntry(user);
-                  Navigator.pop(context);
-                } on Failure catch (f) {
-                  FLog.error(
-                      className: "RegisterScreen",
-                      methodName: "addEntry",
-                      text: f.message);
+                bloc.addEntry(user).then((value) {
+                  logger.d("addEntry val: " + value.toString());
 
-                  Widget okButton = TextButton(
-                    child: Text("OK"),
-                    onPressed: () {
-                      return Navigator.of(context, rootNavigator: true).pop();
-                    },
-                  );
-                  AlertDialog alert = AlertDialog(
-                    title: Text("Warning!"),
-                    content: Text(f.message),
-                    actions: [
-                      okButton,
-                    ],
-                  );
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return alert;
-                    },
-                  );
-                }
+                  if (!value) {
+                    Widget okButton = TextButton(
+                      child: Text("OK"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        return Navigator.of(context, rootNavigator: true).pop();
+                      },
+                    );
+                    AlertDialog alert = AlertDialog(
+                      title: Text("Warning!"),
+                      content: Text("No internet connection!"),
+                      actions: [
+                        okButton,
+                      ],
+                    );
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  }
+                  else{
+                    Navigator.pop(context);
+                  }
+                });
               }
             },
             child: const Text(

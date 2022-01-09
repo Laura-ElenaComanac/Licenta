@@ -1,5 +1,6 @@
 import 'package:f_logs/model/flog/flog.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:projyproject/repository/database.dart';
 import 'package:projyproject/model/user.dart';
 import 'package:projyproject/repository/fake_repo.dart';
@@ -25,6 +26,8 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Logger logger = Logger();
+
     // List<UserEntry> users = [];
     // Provider.of<UserListViewModel>(context).users.then((value) {
     //   setState(() {
@@ -54,7 +57,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 );
               }
 
-              if (snapshot.hasError) final error = snapshot.error;
+              if (snapshot.hasError) logger.d('snapshot error: ' + snapshot.error.toString());
 
               final users = snapshot.data!;
 

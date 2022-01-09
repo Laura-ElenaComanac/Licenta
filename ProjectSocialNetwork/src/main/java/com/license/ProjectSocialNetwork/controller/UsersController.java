@@ -86,12 +86,13 @@ public class UsersController {
 
         userService.saveUser(user);
 
-        System.out.println("User: " + user);
+        //System.out.println("User: " + user);
 
         UserDTO userDTO = userConverter.convertModelToDto(user);
-        simpMessagingTemplate.convertAndSend("/topic/message", userDTO);
+        simpMessagingTemplate.convertAndSend("/topic/add", userDTO);
 
-        log.info("sent " + user);
+        log.info("added: " + userDTO);
+
         return userDTO;
     }
 
@@ -117,7 +118,10 @@ public class UsersController {
 
         userService.updateUser(user);
 
-        log.info("User: " + user);
+        UserDTO userDTO = userConverter.convertModelToDto(user);
+        simpMessagingTemplate.convertAndSend("/topic/update", userDTO);
+
+        log.info("updated: " + userDTO);
 
         return userConverter.convertModelToDto(user);
     }
@@ -130,6 +134,10 @@ public class UsersController {
         userService.deleteUser(id);
 
         System.out.println("Userid: " + id);
+
+        simpMessagingTemplate.convertAndSend("/topic/delete", id);
+
+        log.info("deleted: " + id);
 
         return id;
     }
