@@ -14,13 +14,19 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
   final String firstname;
   final String lastname;
   final String gender;
+  final String email;
+  final String birthday;
+  final String location;
   UserEntry(
       {required this.id,
       required this.username,
       required this.password,
       required this.firstname,
       required this.lastname,
-      required this.gender});
+      required this.gender,
+      required this.email,
+      required this.birthday,
+      required this.location});
   factory UserEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -37,6 +43,12 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
           .mapFromDatabaseResponse(data['${effectivePrefix}lastname'])!,
       gender: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}gender'])!,
+      email: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}email'])!,
+      birthday: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}birthday'])!,
+      location: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}location'])!,
     );
   }
   @override
@@ -48,6 +60,9 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
     map['firstname'] = Variable<String>(firstname);
     map['lastname'] = Variable<String>(lastname);
     map['gender'] = Variable<String>(gender);
+    map['email'] = Variable<String>(email);
+    map['birthday'] = Variable<String>(birthday);
+    map['location'] = Variable<String>(location);
     return map;
   }
 
@@ -59,6 +74,9 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
       firstname: Value(firstname),
       lastname: Value(lastname),
       gender: Value(gender),
+      email: Value(email),
+      birthday: Value(birthday),
+      location: Value(location),
     );
   }
 
@@ -72,6 +90,9 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
       firstname: serializer.fromJson<String>(json['firstname']),
       lastname: serializer.fromJson<String>(json['lastname']),
       gender: serializer.fromJson<String>(json['gender']),
+      email: serializer.fromJson<String>(json['email']),
+      birthday: serializer.fromJson<String>(json['birthday']),
+      location: serializer.fromJson<String>(json['location']),
     );
   }
   @override
@@ -84,6 +105,9 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
       'firstname': serializer.toJson<String>(firstname),
       'lastname': serializer.toJson<String>(lastname),
       'gender': serializer.toJson<String>(gender),
+      'email': serializer.toJson<String>(email),
+      'birthday': serializer.toJson<String>(birthday),
+      'location': serializer.toJson<String>(location),
     };
   }
 
@@ -93,7 +117,10 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
           String? password,
           String? firstname,
           String? lastname,
-          String? gender}) =>
+          String? gender,
+          String? email,
+          String? birthday,
+          String? location}) =>
       UserEntry(
         id: id ?? this.id,
         username: username ?? this.username,
@@ -101,6 +128,9 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
         firstname: firstname ?? this.firstname,
         lastname: lastname ?? this.lastname,
         gender: gender ?? this.gender,
+        email: email ?? this.email,
+        birthday: birthday ?? this.birthday,
+        location: location ?? this.location,
       );
   @override
   String toString() {
@@ -110,14 +140,17 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
           ..write('password: $password, ')
           ..write('firstname: $firstname, ')
           ..write('lastname: $lastname, ')
-          ..write('gender: $gender')
+          ..write('gender: $gender, ')
+          ..write('email: $email, ')
+          ..write('birthday: $birthday, ')
+          ..write('location: $location')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, username, password, firstname, lastname, gender);
+  int get hashCode => Object.hash(id, username, password, firstname, lastname,
+      gender, email, birthday, location);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -127,7 +160,10 @@ class UserEntry extends DataClass implements Insertable<UserEntry> {
           other.password == this.password &&
           other.firstname == this.firstname &&
           other.lastname == this.lastname &&
-          other.gender == this.gender);
+          other.gender == this.gender &&
+          other.email == this.email &&
+          other.birthday == this.birthday &&
+          other.location == this.location);
 }
 
 class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
@@ -137,6 +173,9 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
   final Value<String> firstname;
   final Value<String> lastname;
   final Value<String> gender;
+  final Value<String> email;
+  final Value<String> birthday;
+  final Value<String> location;
   const LocalUsersCompanion({
     this.id = const Value.absent(),
     this.username = const Value.absent(),
@@ -144,6 +183,9 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
     this.firstname = const Value.absent(),
     this.lastname = const Value.absent(),
     this.gender = const Value.absent(),
+    this.email = const Value.absent(),
+    this.birthday = const Value.absent(),
+    this.location = const Value.absent(),
   });
   LocalUsersCompanion.insert({
     required String id,
@@ -152,12 +194,18 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
     required String firstname,
     required String lastname,
     required String gender,
+    required String email,
+    required String birthday,
+    required String location,
   })  : id = Value(id),
         username = Value(username),
         password = Value(password),
         firstname = Value(firstname),
         lastname = Value(lastname),
-        gender = Value(gender);
+        gender = Value(gender),
+        email = Value(email),
+        birthday = Value(birthday),
+        location = Value(location);
   static Insertable<UserEntry> custom({
     Expression<String>? id,
     Expression<String>? username,
@@ -165,6 +213,9 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
     Expression<String>? firstname,
     Expression<String>? lastname,
     Expression<String>? gender,
+    Expression<String>? email,
+    Expression<String>? birthday,
+    Expression<String>? location,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -173,6 +224,9 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
       if (firstname != null) 'firstname': firstname,
       if (lastname != null) 'lastname': lastname,
       if (gender != null) 'gender': gender,
+      if (email != null) 'email': email,
+      if (birthday != null) 'birthday': birthday,
+      if (location != null) 'location': location,
     });
   }
 
@@ -182,7 +236,10 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
       Value<String>? password,
       Value<String>? firstname,
       Value<String>? lastname,
-      Value<String>? gender}) {
+      Value<String>? gender,
+      Value<String>? email,
+      Value<String>? birthday,
+      Value<String>? location}) {
     return LocalUsersCompanion(
       id: id ?? this.id,
       username: username ?? this.username,
@@ -190,6 +247,9 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
       firstname: firstname ?? this.firstname,
       lastname: lastname ?? this.lastname,
       gender: gender ?? this.gender,
+      email: email ?? this.email,
+      birthday: birthday ?? this.birthday,
+      location: location ?? this.location,
     );
   }
 
@@ -214,6 +274,15 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
     if (gender.present) {
       map['gender'] = Variable<String>(gender.value);
     }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (birthday.present) {
+      map['birthday'] = Variable<String>(birthday.value);
+    }
+    if (location.present) {
+      map['location'] = Variable<String>(location.value);
+    }
     return map;
   }
 
@@ -225,7 +294,10 @@ class LocalUsersCompanion extends UpdateCompanion<UserEntry> {
           ..write('password: $password, ')
           ..write('firstname: $firstname, ')
           ..write('lastname: $lastname, ')
-          ..write('gender: $gender')
+          ..write('gender: $gender, ')
+          ..write('email: $email, ')
+          ..write('birthday: $birthday, ')
+          ..write('location: $location')
           ..write(')'))
         .toString();
   }
@@ -268,19 +340,49 @@ class $LocalUsersTable extends LocalUsers
   late final GeneratedColumn<String?> lastname = GeneratedColumn<String?>(
       'lastname', aliasedName, false,
       additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
       typeName: 'TEXT',
       requiredDuringInsert: true);
   final VerificationMeta _genderMeta = const VerificationMeta('gender');
   late final GeneratedColumn<String?> gender = GeneratedColumn<String?>(
       'gender', aliasedName, false,
       additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
+      typeName: 'TEXT',
+      requiredDuringInsert: true);
+  final VerificationMeta _emailMeta = const VerificationMeta('email');
+  late final GeneratedColumn<String?> email = GeneratedColumn<String?>(
+      'email', aliasedName, false,
+      additionalChecks:
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
       typeName: 'TEXT',
       requiredDuringInsert: true);
+  final VerificationMeta _birthdayMeta = const VerificationMeta('birthday');
+  late final GeneratedColumn<String?> birthday = GeneratedColumn<String?>(
+      'birthday', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
+      typeName: 'TEXT',
+      requiredDuringInsert: true);
+  final VerificationMeta _locationMeta = const VerificationMeta('location');
+  late final GeneratedColumn<String?> location = GeneratedColumn<String?>(
+      'location', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 0, maxTextLength: 100),
+      typeName: 'TEXT',
+      requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, username, password, firstname, lastname, gender];
+  List<GeneratedColumn> get $columns => [
+        id,
+        username,
+        password,
+        firstname,
+        lastname,
+        gender,
+        email,
+        birthday,
+        location
+      ];
   @override
   String get aliasedName => _alias ?? 'local_users';
   @override
@@ -324,6 +426,24 @@ class $LocalUsersTable extends LocalUsers
           gender.isAcceptableOrUnknown(data['gender']!, _genderMeta));
     } else if (isInserting) {
       context.missing(_genderMeta);
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+          _emailMeta, email.isAcceptableOrUnknown(data['email']!, _emailMeta));
+    } else if (isInserting) {
+      context.missing(_emailMeta);
+    }
+    if (data.containsKey('birthday')) {
+      context.handle(_birthdayMeta,
+          birthday.isAcceptableOrUnknown(data['birthday']!, _birthdayMeta));
+    } else if (isInserting) {
+      context.missing(_birthdayMeta);
+    }
+    if (data.containsKey('location')) {
+      context.handle(_locationMeta,
+          location.isAcceptableOrUnknown(data['location']!, _locationMeta));
+    } else if (isInserting) {
+      context.missing(_locationMeta);
     }
     return context;
   }

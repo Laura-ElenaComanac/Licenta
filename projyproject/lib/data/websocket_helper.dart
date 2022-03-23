@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:moor_flutter/moor_flutter.dart';
 import 'package:projyproject/model/user.dart';
 import 'package:projyproject/repository/database.dart';
 import 'package:projyproject/view_model/bloc.dart';
@@ -40,8 +41,11 @@ class WebSocketHelper {
                   password: user.password,
                   firstname: user.firstname,
                   lastname: user.lastname,
-                  gender: user.gender));
-              logger.d('Added user in local db: ' + user.toString());
+                  gender: user.gender.toString(),
+                  email: user.email,
+                  birthday: user.birthday.toString(),
+                  location: user.location.toString()));
+              logger.d('weksocket Added user in local db: ' + user.toString());
             } catch (error) {
               logger.d('Websocket error add: ' + user.toString());
               throw Failure(error.toString());
@@ -65,7 +69,10 @@ class WebSocketHelper {
                   password: user.password,
                   firstname: user.firstname,
                   lastname: user.lastname,
-                  gender: user.gender));
+                  gender: user.gender.toString(),
+                  location: user.location.toString(),
+                  email: user.email,
+                  birthday: user.birthday.toString()));
               logger.d('Updated user in local db: ' + user.toString());
             } catch (error) {
               logger.d('Websocket error update: ' + user.toString());

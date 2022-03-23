@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projyproject/ui_screens/helpers/transform/transform.dart';
-import 'package:projyproject/ui_screens/projyapp/generatedpostprojectwidget/generated/GeneratedEllipse12Widget.dart';
+import 'package:projyproject/ui_screens/projyapp/generatedpostprojectwidget/generated/GeneratedEllipse12Widget1.dart';
 import 'package:projyproject/ui_screens/projyapp/generatedpostprojectwidget/generated/GeneratedPostProjectWidget1.dart';
 
 /* Group Group 17
@@ -24,7 +24,7 @@ class GeneratedGroup17Widget extends StatelessWidget {
               bottom: null,
               width: 255.0,
               height: 75.0,
-              child: GeneratedEllipse12Widget(),
+              child: GeneratedEllipse12Widget1(),
             ),
             Positioned(
               left: null,

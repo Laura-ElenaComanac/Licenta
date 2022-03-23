@@ -12,10 +12,13 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+
+import static org.graalvm.compiler.phases.common.DeadCodeEliminationPhase.Optionality.Optional;
 
 @Controller
 //@RequestMapping( value = "/" )
@@ -73,7 +76,10 @@ public class UsersController {
                     @RequestParam(value = "password") String password,
                     @RequestParam(value = "firstName") String firstName,
                     @RequestParam(value = "lastName") String lastName,
-                    @RequestParam(value = "gender") String gender){
+                    @RequestParam(value = "gender") String gender,
+                    @RequestParam(value = "email") String email,
+                    @RequestParam(value = "birthday") String birthday,
+                    @RequestParam(value = "location") String location){
         log.info("addUser(): Called...");
 
         User user = User.builder()
@@ -82,6 +88,9 @@ public class UsersController {
                 .username(username)
                 .password(password)
                 .gender(gender)
+                .email(email)
+                .birthday(birthday)
+                .location(location)
                 .build();
 
         userService.saveUser(user);
@@ -100,11 +109,14 @@ public class UsersController {
     @PutMapping("user/update")
     public @ResponseBody
     UserDTO updateUser (@RequestParam(value = "id") Long id,
-                                          @RequestParam(value = "username") String username,
-                                          @RequestParam(value = "password") String password,
-                                          @RequestParam(value = "firstName") String firstName,
-                                          @RequestParam(value = "lastName") String lastName,
-                                          @RequestParam(value = "gender") String gender) {
+                        @RequestParam(value = "username") String username,
+                        @RequestParam(value = "password") String password,
+                        @RequestParam(value = "firstName") String firstName,
+                        @RequestParam(value = "lastName") String lastName,
+                        @RequestParam(value = "gender") String gender,
+                        @RequestParam(value = "email") String email,
+                        @RequestParam(value = "birthday") String birthday,
+                        @RequestParam(value = "location") String location) {
         log.info("updateUser(): Called... with: " );
 
         User user = User.builder()
@@ -113,6 +125,9 @@ public class UsersController {
                 .username(username)
                 .password(password)
                 .gender(gender)
+                .email(email)
+                .birthday(birthday)
+                .location(location)
                 .build();
         user.setId(id);
 

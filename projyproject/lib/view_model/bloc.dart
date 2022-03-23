@@ -3,8 +3,10 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
+import 'package:moor_flutter/moor_flutter.dart';
 import 'package:projyproject/data/http_helper.dart';
 import 'package:projyproject/data/websocket_helper_widget.dart';
 import 'package:projyproject/repository/database.dart';
@@ -28,42 +30,58 @@ class Bloc {
     updateUsersDB();
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result, LocalUsersCompanion user) async {
+  Future<void> _updateConnectionStatus(
+      ConnectivityResult result, LocalUsersCompanion user) async {
     switch (result) {
       case ConnectivityResult.wifi:
-      case ConnectivityResult.mobile:{
-      logger.d('status: online... adding: ' + user.toString());
-      User myuser = User(
-          id: '',
-          username: user.username.value,
-          password: user.password.value,
-          firstname: user.firstname.value,
-          lastname: user.lastname.value,
-          gender: user.gender.value);
+      case ConnectivityResult.mobile:
+        {
+          logger.d('status: online... adding: ' + user.toString());
+          User myuser = User(
+              id: '',
+              username: user.username.value,
+              password: user.password.value,
+              firstname: user.firstname.value,
+              lastname: user.lastname.value,
+              gender: user.gender.value,
+              location: user.location.value,
+              birthday: user.birthday.value,
+              email: user.email.value);
 
-      h.addUser(myuser).then((value) {
-        if (value != null)
-          {
-            logger.d('Added user to server: ' + myuser.toString());
-            db.deleteUser(UserEntry(id: user.id.value, username: user.username.value, password: user.password.value, firstname: user.firstname.value, lastname: user.lastname.value, gender: user.gender.value));
-            db.insertUser(LocalUsersCompanion.insert(
-                id: value.id,
-                username: value.username,
-                password: value.password,
-                firstname: value.firstname,
-                lastname: value.lastname,
-                gender: value.gender));
-          }
-        else
-          {
-          logger.d('failed to send user to server');
-          }
-      });
-        break;
-      }
-      case ConnectivityResult.none:{
-        logger.d('status: offline');
-        break;}
+          h.addUser(myuser).then((value) {
+            if (value != null) {
+              logger.d('Added user to server: ' + myuser.toString());
+              db.deleteUser(UserEntry(
+                  id: user.id.value,
+                  username: user.username.value,
+                  password: user.password.value,
+                  firstname: user.firstname.value,
+                  lastname: user.lastname.value,
+                  gender: user.gender.value,
+                  location: user.location.value,
+                  birthday: user.birthday.value,
+                  email: user.email.value));
+              db.insertUser(LocalUsersCompanion.insert(
+                  id: value.id,
+                  username: value.username,
+                  password: value.password,
+                  firstname: value.firstname,
+                  lastname: value.lastname,
+                  gender: value.gender.toString(),
+                  location: value.location.toString(),
+                  birthday: value.birthday.toString(),
+                  email: value.email.toString()));
+            } else {
+              logger.d('failed to send user to server');
+            }
+          });
+          break;
+        }
+      case ConnectivityResult.none:
+        {
+          logger.d('status: offline');
+          break;
+        }
       default:
         logger.d('Failed to get connectivity.');
         break;
@@ -89,7 +107,10 @@ class Bloc {
             password: user.password,
             firstname: user.firstname,
             lastname: user.lastname,
-            gender: user.gender);
+            gender: user.gender.toString(),
+            location: user.location.toString(),
+            birthday: user.birthday.toString(),
+            email: user.email);
 
         db.insertUser(userC);
 
@@ -120,7 +141,10 @@ class Bloc {
             password: user.password,
             firstname: user.firstname,
             lastname: user.lastname,
-            gender: user.gender);
+            gender: user.gender.toString(),
+            location: user.location.toString(),
+            birthday: user.birthday.toString(),
+            email: user.email.toString());
 
         db.insertUser(userC);
 
@@ -147,7 +171,10 @@ class Bloc {
           password: user.password.value,
           firstname: user.firstname.value,
           lastname: user.lastname.value,
-          gender: user.gender.value);
+          gender: user.gender.value,
+          email: user.email.value,
+          birthday: user.birthday.value,
+          location: user.location.value);
 
       LocalUsersCompanion userr;
 
@@ -174,15 +201,16 @@ class Bloc {
                     password: user.password.value,
                     firstname: user.firstname.value,
                     lastname: user.lastname.value,
-                    gender: user.gender.value),
+                    gender: user.gender.value,
+                    email: user.email.value,
+                    birthday: user.birthday.value,
+                    location: user.location.value),
                 db.insertUser(userr),
                 logger.d('Added fake user in local db: ' + userr.toString()),
-
-                _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
-                    (ConnectivityResult result) {
-                      _updateConnectionStatus(result, userr);
-                    }
-                ),
+                _connectivitySubscription = _connectivity.onConnectivityChanged
+                    .listen((ConnectivityResult result) {
+                  _updateConnectionStatus(result, userr);
+                }),
               }
           });
     } catch (error) {
@@ -194,8 +222,7 @@ class Bloc {
     logger.d('Connectivity: ' + connectivityResult.toString());
     if (connectivityResult == ConnectivityResult.none) {
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }
@@ -220,7 +247,10 @@ class Bloc {
           password: entry.password,
           firstname: entry.firstname,
           lastname: entry.lastname,
-          gender: entry.gender);
+          gender: entry.gender,
+          location: entry.location,
+          birthday: entry.birthday,
+          email: entry.email);
 
       h.updateUser(myuser).then((value) => {
             logger.d('Updated user to server: ' + myuser.toString()),
@@ -230,7 +260,10 @@ class Bloc {
                 password: value.password,
                 firstname: value.firstname,
                 lastname: value.lastname,
-                gender: value.gender)),
+                gender: value.gender.toString(),
+                location: entry.location,
+                birthday: entry.birthday,
+                email: entry.email)),
             logger.d('Updated user in local db: ' + value.toString())
           });
     } catch (error) {

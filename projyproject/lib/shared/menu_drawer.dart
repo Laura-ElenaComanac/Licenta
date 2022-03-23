@@ -7,9 +7,10 @@ import 'package:projyproject/ui_screens/projyapp/generatedloginscreenwidget/Gene
 import 'package:projyproject/ui_screens/projyapp/generatedpostprojectwidget/GeneratedPostProjectWidget.dart';
 import 'package:projyproject/ui_screens/projyapp/generatedregisterscreenwidget/GeneratedRegisterscreenWidget.dart';
 import 'package:projyproject/ui_screens/projyapp/generatedupdateprofilescreenwidget/GeneratedUpdateprofilescreenWidget.dart';
-import 'package:projyproject/ui_screens/projyapp/generatedupdateprofilescreenwidget/generated/GeneratedGroup13Widget.dart';
 import 'package:projyproject/ui_screens/projyapp/generatedupdateprofilescreenwidget/generated/GeneratedGroup9Widget.dart';
 import 'package:projyproject/ui_screens/projyapp/generatedupdateprofilescreenwidget/generated/GeneratedUpdateProfileWidget.dart';
+
+import '../ui_screens/projyapp/generatedpersonalpagewidget/generated/GeneratedGroup13Widget.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({Key? key}) : super(key: key);

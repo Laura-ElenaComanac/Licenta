@@ -2,6 +2,8 @@ package com.license.ProjectSocialNetwork.controller.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter @Setter
 @EqualsAndHashCode
 @NoArgsConstructor @AllArgsConstructor
@@ -13,10 +15,10 @@ public class UserDTO extends BaseDTO<Long>{
     private String lastName;
     //    @Enumerated(EnumType.STRING)
 //    private Type type;
-//    private String email;
-//    private String location;
+    private String email;
+    private String location;
     private String gender;
-//    private LocalDate birthday;
+    private String birthday;
 
 
 }

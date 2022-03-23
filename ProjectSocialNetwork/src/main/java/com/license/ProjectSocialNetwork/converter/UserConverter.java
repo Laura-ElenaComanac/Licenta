@@ -15,6 +15,9 @@ public class UserConverter extends BaseConverter<Long, User, UserDTO>{
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .gender(dto.getGender())
+                .email(dto.getEmail())
+                .birthday(dto.getBirthday())
+                .location(dto.getLocation())
                 .build();
         user.setId(dto.getId());
         return user;
@@ -29,6 +32,9 @@ public class UserConverter extends BaseConverter<Long, User, UserDTO>{
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .gender(user.getGender())
+                .email(user.getEmail())
+                .birthday(user.getBirthday())
+                .location(user.getLocation())
                 .build();
         userdto.setId(user.getId());
         return userdto;

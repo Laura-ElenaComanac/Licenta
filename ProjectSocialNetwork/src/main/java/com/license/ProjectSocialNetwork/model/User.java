@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +22,10 @@ public class User extends BaseEntity<Long> {
     private String lastName;
 //    @Enumerated(EnumType.STRING)
 //    private Type type;
-//    private String email;
-//    private String location;
+    private String email;
+    private String location;
     private String gender;
-//    private LocalDate birthday;
+    private String birthday;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -58,6 +59,9 @@ public class User extends BaseEntity<Long> {
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", gender='" + gender ;
+                ", gender='" + gender  +
+                ", email='" + email + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", location='" + location;
     }
 }

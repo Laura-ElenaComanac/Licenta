@@ -31,7 +31,10 @@ class _UsersListWidgetState extends State<UsersListWidget> {
               password: widget.users[index].password,
               firstname: widget.users[index].firstname,
               lastname: widget.users[index].lastname,
-              gender: widget.users[index].gender);
+              gender: widget.users[index].gender,
+              email: widget.users[index].email,
+              location: widget.users[index].location,
+              birthday: widget.users[index].birthday);
 
           final myuser = User(
               id: widget.users[index].id.toString(),
@@ -39,7 +42,10 @@ class _UsersListWidgetState extends State<UsersListWidget> {
               password: widget.users[index].password,
               firstname: widget.users[index].firstname,
               lastname: widget.users[index].lastname,
-              gender: widget.users[index].gender);
+              gender: widget.users[index].gender,
+              email: widget.users[index].email,
+              location: widget.users[index].location,
+              birthday: widget.users[index].birthday);
 
           final struser = myuser.toString();
 

@@ -23,6 +23,15 @@ class User {
   String _gender;
   String get gender => _gender;
 
+  String _email;
+  String get email => _email;
+
+  String _birthday;
+  String get birthday => _birthday;
+
+  String _location;
+  String get location => _location;
+
   factory User.fromJson(Map<String, dynamic> usersMap) {
     return User(
       id: usersMap['id'].toString() as String,
@@ -31,6 +40,9 @@ class User {
       firstname: usersMap['firstName'] as String,
       lastname: usersMap['lastName'] as String,
       gender: usersMap['gender'] as String,
+      email: usersMap['email'] as String,
+      birthday: usersMap['birthday'] as String,
+      location: usersMap['location'] as String,
     );
   }
 
@@ -41,6 +53,9 @@ class User {
       'password': _password,
       'firstName': _firstname,
       'lastName': _lastname,
+      'email': _email,
+      'birthday': _birthday,
+      'location': _location,
       'gender': _gender
     };
     return usersMap;
@@ -53,18 +68,23 @@ class User {
     required String firstname,
     required String lastname,
     required String gender,
+    required String email,
+    required String birthday,
+    required String location,
   })  : _id = id,
         _username = username,
         _password = password,
         _firstname = firstname,
         _lastname = lastname,
         _gender = gender,
+        _email = email,
+        _birthday = birthday,
+        _location = location,
         assert(id != null),
         assert(username != null),
         assert(password != null),
         assert(firstname != null),
-        assert(lastname != null),
-        assert(gender != null);
+        assert(lastname != null);
 
   // User copyWith({
   //   required String id,
@@ -98,6 +118,12 @@ class User {
         ", lastname: " +
         _lastname +
         ", gender: " +
-        _gender;
+        _gender +
+        ", email: " +
+        _email +
+        ", birthday: " +
+        _birthday +
+        ", location: " +
+        _location;
   }
 }

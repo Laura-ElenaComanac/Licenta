@@ -48,11 +48,11 @@ class _GeneratedRectangle5WidgetState extends State<GeneratedRectangle5Widget> {
 
                 return UsersListWidget(users, (int index) {
                   try {
-                    bloc.deleteEntry(users[index].id);
+                    bloc.deleteDBEntry(users[index].id);
                   } on Failure catch (f) {
                     FLog.error(
                         className: "IntroScreen",
-                        methodName: "deleteEntry",
+                        methodName: "deleteDBEntry",
                         text: f.message);
 
                     Widget okButton = TextButton(

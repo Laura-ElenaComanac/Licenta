@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:projyproject/shared/menu_drawer.dart';
-import 'package:projyproject/ui_screens/helpers/transform/transform.dart';
 import 'package:projyproject/ui_screens/projyapp/generatedhomescreenwidget/generated/GeneratedEllipse8Widget.dart';
 import 'package:projyproject/ui_screens/projyapp/generatedhomescreenwidget/generated/GeneratedProjyWidget.dart';
 import 'package:projyproject/ui_screens/projyapp/generatedpersonalpagewidget/generated/GeneratedGroup13Widget.dart';
@@ -78,7 +77,7 @@ class GeneratedPersonalPageWidget extends StatelessWidget {
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Container(
-                  height: 1278.0,
+                  height: 1285.0,
                   child: Stack(children: [
                     Container(
                         width: constraints.maxWidth,
@@ -140,25 +139,21 @@ class GeneratedPersonalPageWidget extends StatelessWidget {
                                 ),
                                 Positioned(
                                   left: 17.0,
-                                  top: 146.0,
+                                  top: 153.0,
                                   right: 17.0,
-                                  bottom: -382.0,
+                                  bottom: -389.0,
                                   width: null,
                                   height: null,
                                   child: GeneratedGroup1Widget(),
                                 ),
                                 Positioned(
-                                  left: null,
-                                  top: null,
+                                  left: 143.0,
+                                  top: 7.0,
                                   right: null,
                                   bottom: null,
                                   width: 129.0,
-                                  height: 116.0,
-                                  child: TransformHelper.translate(
-                                      x: 1.50,
-                                      y: -368.00,
-                                      z: 0,
-                                      child: GeneratedGroup13Widget()),
+                                  height: 139.625,
+                                  child: GeneratedGroup13Widget(),
                                 )
                               ]),
                         ))

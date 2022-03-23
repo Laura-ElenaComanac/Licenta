@@ -800,7 +800,7 @@ packages:
     source: hosted
     version: "2.1.0"
   webdriver:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: webdriver
       url: "https://pub.dartlang.org"

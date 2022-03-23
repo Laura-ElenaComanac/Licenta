@@ -11,8 +11,11 @@ class LocalUsers extends Table {
   TextColumn get username => text().withLength(min: 1, max: 100)();
   TextColumn get password => text().withLength(min: 1, max: 100)();
   TextColumn get firstname => text().withLength(min: 1, max: 100)();
-  TextColumn get lastname => text().withLength(min: 1, max: 100)();
-  TextColumn get gender => text().withLength(min: 1, max: 100)();
+  TextColumn get lastname => text().withLength(min: 0, max: 100)();
+  TextColumn get gender => text().withLength(min: 0, max: 100)();
+  TextColumn get email => text().withLength(min: 1, max: 100)();
+  TextColumn get birthday => text().withLength(min: 0, max: 100)();
+  TextColumn get location => text().withLength(min: 0, max: 100)();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -25,7 +28,17 @@ class Database extends _$Database {
             path: 'database.sqlite', logStatements: true));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 5;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(onCreate: (Migrator m) {
+        return m.createAll();
+      }, onUpgrade: (Migrator m, int from, int to) async {
+        if (from == 4) {
+          await m.drop(localUsers);
+          await m.createTable(localUsers);
+        }
+      });
 
   Future<List<UserEntry>> getUsers() => select(localUsers).get();
 

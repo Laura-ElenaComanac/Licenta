@@ -51,7 +51,7 @@ class HttpHelper {
 
       logger.d('Got users from the server: ' + data.toString());
     } catch (e) {
-      print(e);
+      logger.d("http helper getUsers error: " + e.toString());
     }
 
     // http.Response response = await http.get(uri, headers: {
@@ -69,7 +69,10 @@ class HttpHelper {
       'password': usera.password,
       'firstName': usera.firstname,
       'lastName': usera.lastname,
-      'gender': usera.gender
+      'gender': usera.gender,
+      'email': usera.email,
+      'birthday': usera.birthday,
+      'location': usera.location
     };
 
     User? myuser;
@@ -80,9 +83,11 @@ class HttpHelper {
       var data = json.decode(result.body);
       myuser = User.fromJson(data);
     } catch (error) {
+      logger.d("http helper addUser error: " + error.toString());
       return null;
     }
 
+    logger.d("added http helper user: " + myuser.toString());
     return myuser;
   }
 
@@ -93,7 +98,10 @@ class HttpHelper {
       'password': usera.password,
       'firstName': usera.firstname,
       'lastName': usera.lastname,
-      'gender': usera.gender
+      'gender': usera.gender,
+      'email': usera.email,
+      'birthday': usera.birthday,
+      'location': usera.location
     };
 
     Uri uri = Uri.http(authority, updatepath, parameters);

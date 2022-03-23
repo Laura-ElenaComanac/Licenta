@@ -7,15 +7,15 @@ class GeneratedRectangle5Widget1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 189.06739807128906,
-      height: 186.0,
+      width: 358.8789367675781,
+      height: 366.2474060058594,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50.0),
+        borderRadius: BorderRadius.circular(49.226802825927734),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(50.0),
+        borderRadius: BorderRadius.circular(49.226802825927734),
         child: Container(
-          color: Color.fromARGB(255, 102, 59, 223),
+          color: Color.fromARGB(255, 255, 255, 255),
         ),
       ),
     );
