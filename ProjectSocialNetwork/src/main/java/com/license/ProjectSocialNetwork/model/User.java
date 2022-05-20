@@ -20,8 +20,6 @@ public class User extends BaseEntity<Long> {
     private String password;
     private String firstName;
     private String lastName;
-//    @Enumerated(EnumType.STRING)
-//    private Type type;
     private String email;
     private String location;
     private String gender;

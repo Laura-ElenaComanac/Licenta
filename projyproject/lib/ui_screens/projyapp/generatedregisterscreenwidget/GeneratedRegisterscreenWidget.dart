@@ -1,10 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:projyproject/repository/database.dart';
 import 'package:projyproject/ui_screens/helpers/transform/transform.dart';
+import 'package:projyproject/ui_screens/projyapp/generatedpersonalpagewidget/generated/GeneratedUsernameWidget.dart';
 import 'package:projyproject/ui_screens/projyapp/generatedregisterscreenwidget/generated/GeneratedEllipse1Widget.dart';
 import 'package:projyproject/ui_screens/projyapp/generatedregisterscreenwidget/generated/GeneratedEllipse3Widget.dart';
 import 'package:projyproject/ui_screens/projyapp/generatedregisterscreenwidget/generated/GeneratedEllipse4Widget.dart';
@@ -38,7 +40,9 @@ class _GeneratedRegisterscreenWidgetState
     extends State<GeneratedRegisterscreenWidget> {
   Bloc get bloc => Provider.of<Bloc>(context, listen: false);
 
-  final _nameTextController = TextEditingController();
+  final _firstnameTextController = TextEditingController();
+
+  final _lastnameTextController = TextEditingController();
 
   final _emailTextController = TextEditingController();
 
@@ -222,7 +226,8 @@ class _GeneratedRegisterscreenWidgetState
                                       if (_emailTextController.text == "" ||
                                           _usernameTextController.text == "" ||
                                           _passwordTextController.text == "" ||
-                                          _nameTextController.text == "") {
+                                          _firstnameTextController.text == "" ||
+                                          _lastnameTextController.text == "") {
                                         Widget okButton = TextButton(
                                           child: Text("OK"),
                                           onPressed: () {
@@ -252,10 +257,10 @@ class _GeneratedRegisterscreenWidgetState
                                                 _usernameTextController.text,
                                             password:
                                                 _passwordTextController.text,
-                                            firstname: _nameTextController.text
-                                                .split(' ')[0],
-                                            lastname: _nameTextController.text
-                                                .split(' ')[1],
+                                            firstname:
+                                                _firstnameTextController.text,
+                                            lastname:
+                                                _lastnameTextController.text,
                                             gender: _genderTextController.text,
                                             email: _emailTextController.text,
                                             location:
@@ -377,7 +382,35 @@ class _GeneratedRegisterscreenWidgetState
                                     child: TextFormField(
                                       controller: _birthdayTextController,
                                       textAlign: TextAlign.center,
+                                      onTap: () async {
+                                        DateTime? pickedDate =
+                                            await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(
+                                                    2000), //DateTime.now() - not to allow to choose before today.
+                                                lastDate: DateTime(2101));
+
+                                        if (pickedDate != null) {
+                                          print(
+                                              pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                                          String formattedDate =
+                                              DateFormat('yyyy-MM-dd')
+                                                  .format(pickedDate);
+                                          print(
+                                              formattedDate); //formatted date output using intl package =>  2021-03-16
+                                          //you can implement different kind of Date Format here according to your requirement
+
+                                          setState(() {
+                                            _birthdayTextController.text =
+                                                formattedDate; //set output date to TextField value.
+                                          });
+                                        } else {
+                                          logger.d("Date is not selected");
+                                        }
+                                      },
                                       decoration: InputDecoration(
+                                        icon: Icon(Icons.calendar_today),
                                         border: OutlineInputBorder(),
                                         labelText: 'Birthday',
                                         hintText: 'Enter Birthday',
@@ -576,22 +609,64 @@ class _GeneratedRegisterscreenWidgetState
                               top: null,
                               right: null,
                               bottom: null,
-                              width: 350,
+                              width: 190,
                               height: 100,
                               child: TransformHelper.translate(
-                                x: -5,
+                                x: -90,
                                 y: -221.00,
                                 z: 0,
                                 child: Padding(
                                   padding: EdgeInsets.all(15),
                                   child: SizedBox(
                                     child: TextFormField(
-                                      controller: _nameTextController,
+                                      controller: _firstnameTextController,
                                       textAlign: TextAlign.center,
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
-                                        labelText: 'Name*',
-                                        hintText: 'Enter First and Last Name',
+                                        labelText: 'First Name*',
+                                        hintText: 'First Name',
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 135, 134, 231),
+                                                width: 1.5),
+                                            borderRadius:
+                                                BorderRadius.circular(25.0)),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: Color.fromARGB(
+                                                  255, 135, 134, 231),
+                                              width: 2.0),
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: null,
+                              top: null,
+                              right: null,
+                              bottom: null,
+                              width: 190,
+                              height: 100,
+                              child: TransformHelper.translate(
+                                x: 80,
+                                y: -221.00,
+                                z: 0,
+                                child: Padding(
+                                  padding: EdgeInsets.all(15),
+                                  child: SizedBox(
+                                    child: TextFormField(
+                                      controller: _lastnameTextController,
+                                      textAlign: TextAlign.center,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'Last Name*',
+                                        hintText: 'Last Name',
                                         enabledBorder: OutlineInputBorder(
                                             borderSide: const BorderSide(
                                                 color: Color.fromARGB(

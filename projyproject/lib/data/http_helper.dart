@@ -91,7 +91,7 @@ class HttpHelper {
     return myuser;
   }
 
-  Future<User> updateUser(User usera) async {
+  Future<User?> updateUser(User usera) async {
     Map<String, dynamic> parameters = {
       'id': usera.id,
       'username': usera.username,
@@ -104,12 +104,23 @@ class HttpHelper {
       'location': usera.location
     };
 
-    Uri uri = Uri.http(authority, updatepath, parameters);
-    http.Response result = await http.put(uri);
+    logger.d(usera);
 
-    var data = json.decode(result.body);
-    User myuser = User.fromJson(data);
+    User? myuser;
+    try {
+      Uri uri = Uri.http(authority, updatepath, parameters);
+      http.Response result = await http.put(uri);
 
+      logger.d('result!!! ' + result.body.toString());
+
+      var data = json.decode(result.body);
+      myuser = User.fromJson(data);
+    } catch (error) {
+      logger.d("http helper updateUser error: " + error.toString());
+      return null;
+    }
+
+    logger.d("updated http helper user: " + myuser.toString());
     return myuser;
   }
 

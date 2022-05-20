@@ -11,11 +11,16 @@ class GeneratedEllipse11Widget1 extends StatelessWidget {
       width: 255.0,
       height: 75.0,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10000),
+            topRight: Radius.circular(10000),
+            bottomLeft: Radius.circular(10000),
+            bottomRight: Radius.circular(10000)),
         boxShadow: [
           BoxShadow(
             color: Color.fromARGB(63, 0, 0, 0),
-            offset: Offset(0.0, 4.0),
-            blurRadius: 4.0,
+            offset: Offset(0.0, 10.0),
+            blurRadius: 15.0,
           )
         ],
       ),

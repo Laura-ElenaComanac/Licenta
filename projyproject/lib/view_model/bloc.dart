@@ -14,7 +14,10 @@ import 'package:projyproject/model/user.dart';
 
 class Bloc {
   late final Stream<List<UserEntry>> _users;
+  late final Stream<List<LoggedUserEntry>> _logged_user;
+
   Stream<List<UserEntry>> get homeScreenEntries => _users;
+  Stream<List<LoggedUserEntry>> get loggedUserEntry => _logged_user;
   late UserEntry _user;
 
   //String _connectionStatus = 'Unknown';
@@ -26,6 +29,8 @@ class Bloc {
   final Database db;
 
   Bloc() : db = Database() {
+    //db.deleteAllUsers();
+    _logged_user = db.watchLoggedUser();
     _users = db.watchUsers();
     updateUsersDB();
   }
@@ -211,6 +216,7 @@ class Bloc {
                     .listen((ConnectivityResult result) {
                   _updateConnectionStatus(result, userr);
                 }),
+                _logged_user = db.watchLoggedUser()
               }
           });
     } catch (error) {
@@ -237,6 +243,16 @@ class Bloc {
     }
   }
 
+  void addLoggedUser(LoggedUserCompanion user) {
+    try {
+      db.insertLoggedUser(user);
+      logger.d('Added logged user in local db: ' + user.toString());
+    } catch (error) {
+      logger.d('Error Adding logged db user: ' + error.toString());
+      throw Failure(error.toString());
+    }
+  }
+
   void updateEntry(UserEntry entry) async {
     try {
       logger.d('Updating given user: ' + entry.toString());
@@ -253,18 +269,34 @@ class Bloc {
           email: entry.email);
 
       h.updateUser(myuser).then((value) => {
-            logger.d('Updated user to server: ' + myuser.toString()),
-            db.updateUserById(UserEntry(
-                id: value.id,
-                username: value.username,
-                password: value.password,
-                firstname: value.firstname,
-                lastname: value.lastname,
-                gender: value.gender.toString(),
-                location: entry.location,
-                birthday: entry.birthday,
-                email: entry.email)),
-            logger.d('Updated user in local db: ' + value.toString())
+            if (value != null)
+              {
+                logger.d('Updated user to server: ' + myuser.toString()),
+                //print(_connectionStatus)
+                // db.insertUser(LocalUsersCompanion.insert(
+                //     id: value.id,
+                //     username: value.username,
+                //     password: value.password,
+                //     firstname: value.firstname,
+                //     lastname: value.lastname,
+                //     gender: value.gender)),
+                //
+                //logger.d('Added user in local db: ' + value.toString())
+              }
+            else
+              {
+                db.updateUserById(UserEntry(
+                    id: value!.id,
+                    username: value.username,
+                    password: value.password,
+                    firstname: value.firstname,
+                    lastname: value.lastname,
+                    gender: value.gender.toString(),
+                    location: entry.location,
+                    birthday: entry.birthday,
+                    email: entry.email)),
+                logger.d('Updated user in local db: ' + value.toString())
+              }
           });
     } catch (error) {
       logger.d('Error Updating given user: ' + error.toString());
@@ -275,7 +307,16 @@ class Bloc {
 
   void updateDBEntry(LocalUsersCompanion user) {
     try {
-      db.updateUser(user);
+      db.updateUser(UserEntry(
+          id: user.id.value,
+          username: user.username.value,
+          password: user.password.value,
+          firstname: user.firstname.value,
+          lastname: user.lastname.value,
+          gender: user.gender.toString(),
+          location: user.location.value,
+          birthday: user.birthday.value,
+          email: user.email.value));
       logger.d('Updated user in local db: ' + user.toString());
     } catch (error) {
       logger.d('Error Updating db user: ' + error.toString());
@@ -310,6 +351,19 @@ class Bloc {
 
   Future<List<UserEntry>> getEntries() {
     return db.getUsers();
+  }
+
+  Future<LoggedUserEntry> getLoggedUser() {
+    return db.getLoggedUser().then((value) => value.first);
+  }
+
+  Future<List<UserEntry>?> getUserByUsernameAndPassword(
+      String username, String password) async {
+    try {
+      return db.userByUsernameAndPassword(username, password);
+    } catch (error) {
+      return null;
+    }
   }
 
   void close() {

@@ -95,8 +95,6 @@ public class UsersController {
 
         userService.saveUser(user);
 
-        //System.out.println("User: " + user);
-
         UserDTO userDTO = userConverter.convertModelToDto(user);
         simpMessagingTemplate.convertAndSend("/topic/add", userDTO);
 
