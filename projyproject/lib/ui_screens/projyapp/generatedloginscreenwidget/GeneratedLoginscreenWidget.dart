@@ -244,6 +244,7 @@ class _GeneratedLoginscreenWidgetState
                                   y: 235.00,
                                   z: 0,
                                   child: FloatingActionButton(
+                                    key: Key('Login'),
                                     backgroundColor: Colors.transparent,
                                     elevation: 0,
                                     onPressed: () {
@@ -279,9 +280,8 @@ class _GeneratedLoginscreenWidgetState
                                             .then((value) {
                                           logger.d(
                                               '!!!Value!!!' + value.toString());
-                                          if (value.toString() != '[]') {
-                                            var first =
-                                                value!.first; // No element!!!
+                                          if (value != null) {
+                                            var first = value; // No element!!!
                                             var user =
                                                 LoggedUserCompanion.insert(
                                                     id: first.id,
@@ -376,6 +376,7 @@ class _GeneratedLoginscreenWidgetState
                               bottom: null,
                               width: 300,
                               height: 150,
+                              key: Key('Username'),
                               child: TransformHelper.translate(
                                 x: 0.00,
                                 y: 12.50,
@@ -418,6 +419,7 @@ class _GeneratedLoginscreenWidgetState
                               bottom: null,
                               width: 300,
                               height: 200,
+                              key: Key('Password'),
                               child: TransformHelper.translate(
                                 x: -1.00,
                                 y: 136.50,

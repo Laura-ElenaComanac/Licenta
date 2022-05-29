@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:projyproject/model/post.dart';
 import 'package:projyproject/model/user.dart';
 import 'package:projyproject/repository/database.dart';
 import 'package:projyproject/view_model/bloc.dart';
@@ -29,7 +30,7 @@ class WebSocketHelper {
         destination: '/topic/add',
         callback: (StompFrame frame) {
           if (frame.body != null) {
-            logger.d("started websocket callback on add");
+            logger.d("started websocket callback on add user");
             var data = json.decode(frame.body!);
             logger.d("received " + frame.body!);
             User user = User.fromJson(data);
@@ -47,7 +48,31 @@ class WebSocketHelper {
                   location: user.location.toString()));
               logger.d('weksocket Added user in local db: ' + user.toString());
             } catch (error) {
-              logger.d('Websocket error add: ' + user.toString());
+              logger.d('Websocket error add user: ' + user.toString());
+              throw Failure(error.toString());
+            }
+          }
+        });
+
+    stompClient!.subscribe(
+        destination: '/topic2/add',
+        callback: (StompFrame frame) {
+          if (frame.body != null) {
+            logger.d("started websocket callback on add post");
+            var data = json.decode(frame.body!);
+            logger.d("received " + frame.body!);
+            Post post = Post.fromJson(data);
+
+            try {
+              bloc.addDBPostEntry(LocalPostsCompanion.insert(
+                  id: post.id,
+                  title: post.title,
+                  description: post.description,
+                  date: post.date,
+                  userid: post.userid));
+              logger.d('weksocket Added post in local db: ' + post.toString());
+            } catch (error) {
+              logger.d('Websocket error add post: ' + post.toString());
               throw Failure(error.toString());
             }
           }

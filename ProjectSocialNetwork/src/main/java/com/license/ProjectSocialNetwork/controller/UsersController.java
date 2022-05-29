@@ -70,6 +70,22 @@ public class UsersController {
         return userConverter.convertModelsToDTOsList(users);
     }
 
+    @GetMapping("user/pass")
+    public @ResponseBody
+    UserDTO getUserByUsernameAndPassword(@RequestParam(value = "username") String username,
+                                          @RequestParam(value = "password") String password) {
+        log.info("Enter with user: " + username + " pass: " + password);
+        User user = new User();
+        try {
+            user = userService.findUserByUsernameAndPassword(username, password);
+            log.info(user.toString() + " returned");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return userConverter.convertModelToDto(user);
+    }
+
     @PostMapping("user/add")
     public @ResponseBody
     UserDTO addUser(@RequestParam(value = "username") String username,

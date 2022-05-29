@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:moor_flutter/moor_flutter.dart';
+import 'package:projyproject/model/post.dart';
 import 'package:projyproject/model/user.dart';
 
 part 'database.g.dart';
@@ -21,6 +22,19 @@ class LocalUsers extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+@DataClassName('PostEntry')
+class LocalPosts extends Table {
+  //IntColumn get id => integer().autoIncrement()();
+  TextColumn get id => text().withLength(min: 1, max: 100)();
+  TextColumn get date => text().withLength(min: 1, max: 100)();
+  TextColumn get description => text().withLength(min: 1, max: 1000)();
+  TextColumn get title => text().withLength(min: 1, max: 100)();
+  TextColumn get userid => text().withLength(min: 1, max: 100)();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 @DataClassName('LoggedUserEntry')
 class LoggedUser extends Table {
   TextColumn get id => text().withLength(min: 1, max: 100)();
@@ -37,29 +51,39 @@ class LoggedUser extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-@UseMoor(tables: [LocalUsers, LoggedUser])
+@UseMoor(tables: [LocalUsers, LoggedUser, LocalPosts])
 class Database extends _$Database {
   Database()
       : super(FlutterQueryExecutor.inDatabaseFolder(
             path: 'database.sqlite', logStatements: true));
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 12;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(onCreate: (Migrator m) {
         return m.createAll();
       }, onUpgrade: (Migrator m, int from, int to) async {
-        if (from == 5) {
+        if (from == 11) {
           //await m.drop(localUsers);
-          //await m.createTable(localUsers);
-          await m.createTable(loggedUser);
+          await m.drop(localPosts);
+          await m.createTable(localPosts);
         }
       });
 
   Future<List<UserEntry>> getUsers() => select(localUsers).get();
 
+  Future<List<PostEntry>> getPosts() => select(localPosts).get();
+
   Stream<List<UserEntry>> watchUsers() => select(localUsers).watch();
+
+  Stream<List<PostEntry>> watchPosts() => select(localPosts).watch();
+
+  Future<String> usernamePostByUserId(String id) {
+    return (select(localUsers)..where((t) => t.id.equals(id)))
+        .get()
+        .then((value) => value.first.username);
+  }
 
   Stream<UserEntry> userById(String id) {
     return (select(localUsers)..where((t) => t.id.equals(id))).watchSingle();
@@ -87,16 +111,10 @@ class Database extends _$Database {
 
   Future<void> insertUser(LocalUsersCompanion user) async {
     into(localUsers).insert(user);
-    insertLoggedUser(LoggedUserCompanion.insert(
-        id: user.id.value,
-        username: user.username.value,
-        password: user.password.value,
-        firstname: user.firstname.value,
-        lastname: user.lastname.value,
-        gender: user.gender.value,
-        email: user.email.value,
-        birthday: user.birthday.value,
-        location: user.location.value));
+  }
+
+  Future<void> insertPost(LocalPostsCompanion post) async {
+    into(localPosts).insert(post);
   }
 
   Future<void> insertLoggedUser(LoggedUserCompanion user) async {
@@ -138,8 +156,14 @@ class Database extends _$Database {
 
   Future<void> deleteUser(UserEntry user) => delete(localUsers).delete(user);
 
+  Future<void> deletePost(PostEntry post) => delete(localPosts).delete(post);
+
   Future<void> deleteUserById(String id) {
     return (delete(localUsers)..where((t) => t.id.equals(id))).go();
+  }
+
+  Future<void> deletePostById(String id) {
+    return (delete(localPosts)..where((t) => t.id.equals(id))).go();
   }
 
   Future<void> updateUserById(UserEntry user) {

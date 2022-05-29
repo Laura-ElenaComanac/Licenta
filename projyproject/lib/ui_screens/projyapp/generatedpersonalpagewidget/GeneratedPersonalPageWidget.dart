@@ -77,13 +77,13 @@ class GeneratedPersonalPageWidget extends StatelessWidget {
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Container(
-                  height: 1285.0,
+                  height: 2000.0,
                   child: Stack(children: [
                     Container(
                         width: constraints.maxWidth,
                         child: Container(
                           width: 414.0,
-                          height: 896.0,
+                          height: 2000.0,
                           child: Stack(
                               fit: StackFit.expand,
                               alignment: Alignment.center,

@@ -15,7 +15,7 @@ class GeneratedRectangle6Widget extends StatelessWidget {
         d: 1.00,
         child: Container(
           width: 380.0,
-          height: 1132.0,
+          height: 700.0,
           child: SvgWidget(painters: [
             SvgPathPainter.fill()
               ..addPath(

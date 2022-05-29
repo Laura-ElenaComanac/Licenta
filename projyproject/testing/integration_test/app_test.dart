@@ -4,6 +4,8 @@ import 'package:projyproject/main.dart' as app;
 import 'package:projyproject/screens/intro_screen.dart';
 import 'package:projyproject/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:projyproject/ui_screens/projyapp/generatedhomescreenwidget/GeneratedHomescreenWidget.dart';
+import 'package:projyproject/ui_screens/projyapp/generatedloginscreenwidget/GeneratedLoginscreenWidget.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -14,21 +16,23 @@ void main() {
     app.main();
 
     await tester.pump();
-    expect(find.byType(LoginScreen), findsOneWidget);
+    expect(find.byType(GeneratedLoginscreenWidget), findsOneWidget);
 
-    Finder usernameField = find.byKey(Key('username'));
+    Finder usernameField = find.byKey(const Key('Username'));
     expect(usernameField, findsOneWidget);
-    await tester.enterText(usernameField, 'username');
+    await tester.tap(usernameField);
+    await tester.enterText(usernameField, 'audry');
 
-    Finder passwordField = find.byKey(Key('password'));
+    Finder passwordField = find.byKey(const Key('Password'));
     expect(passwordField, findsOneWidget);
-    await tester.enterText(passwordField, 'password');
+    await tester.tap(passwordField);
+    await tester.enterText(passwordField, 'audry');
 
     final loginButton = find.byKey(const Key('Login'));
     expect(loginButton, findsOneWidget);
     await tester.tap(loginButton);
-    await tester.pumpAndSettle(Duration(seconds: 5));
+    await tester.pumpAndSettle(const Duration(seconds: 2));
 
-    expect(find.byType(IntroScreen), findsOneWidget);
+    expect(find.byType(GeneratedHomescreenWidget), findsOneWidget);
   });
 }

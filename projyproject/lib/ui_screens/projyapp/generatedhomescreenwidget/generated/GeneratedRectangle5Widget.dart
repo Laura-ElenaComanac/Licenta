@@ -31,7 +31,7 @@ class _GeneratedRectangle5WidgetState extends State<GeneratedRectangle5Widget> {
         borderRadius: BorderRadius.circular(50.0),
         child: Container(
           color: Color.fromARGB(255, 255, 255, 255),
-          child: StreamBuilder<List<UserEntry>>(
+          child: StreamBuilder<List<PostEntry>>(
               stream: bloc.homeScreenEntries,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
@@ -44,15 +44,15 @@ class _GeneratedRectangle5WidgetState extends State<GeneratedRectangle5Widget> {
                 if (snapshot.hasError)
                   logger.d('snapshot error: ' + snapshot.error.toString());
 
-                final users = snapshot.data!;
+                final posts = snapshot.data!;
 
-                return UsersListWidget(users, (int index) {
+                return UsersListWidget(posts, (int index) {
                   try {
-                    bloc.deleteDBEntry(users[index].id);
+                    bloc.deleteDBPostEntry(posts[index].id);
                   } on Failure catch (f) {
                     FLog.error(
                         className: "IntroScreen",
-                        methodName: "deleteDBEntry",
+                        methodName: "deleteDBPostEntry",
                         text: f.message);
 
                     Widget okButton = TextButton(

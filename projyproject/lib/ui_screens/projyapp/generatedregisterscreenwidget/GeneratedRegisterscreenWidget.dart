@@ -268,7 +268,7 @@ class _GeneratedRegisterscreenWidgetState
                                             birthday:
                                                 _birthdayTextController.text);
 
-                                        bloc.addEntry(user).then((value) {
+                                        bloc.addUserEntry(user).then((value) {
                                           logger.d("Register User: " +
                                               value.toString());
 

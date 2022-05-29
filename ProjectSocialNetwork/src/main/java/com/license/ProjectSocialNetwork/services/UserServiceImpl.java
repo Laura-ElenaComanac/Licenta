@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service //("userService")
@@ -49,6 +50,17 @@ public class UserServiceImpl implements UserService{
 
         log.traceEntry("Returning all users...");
         return userRepository.findAll();
+    }
+
+    @Override
+    public User findUserByUsernameAndPassword(String username, String password) {
+        log.info("Returning user by username and password...");
+        User user = userRepository.findUserByUsernameAndPassword(username, password);
+        if(user == null){
+            log.info("User does not exist with username " + username + " and password " + password);
+        }
+        log.info("Returning " + user);
+        return user;
     }
 
     @Override

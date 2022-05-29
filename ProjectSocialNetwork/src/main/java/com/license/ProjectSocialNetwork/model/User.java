@@ -8,6 +8,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "userWithPosts",
+            attributeNodes = @NamedAttributeNode(value = "posts"))
+})
 @Entity
 @Getter @Setter
 @EqualsAndHashCode

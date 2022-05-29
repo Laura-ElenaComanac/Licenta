@@ -10,7 +10,7 @@ class GeneratedGroup1Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 380.0,
-      height: 1132.0,
+      height: 700.0,
       child: Stack(
           fit: StackFit.expand,
           alignment: Alignment.center,
@@ -29,7 +29,7 @@ class GeneratedGroup1Widget extends StatelessWidget {
                 final double scaleX = width <= 0 ? 0 : (width / 380.0);
 
                 final double height = constraints.maxHeight - 0.0;
-                final double scaleY = height <= 0 ? 0 : (height / 1132.0);
+                final double scaleY = height <= 0 ? 0 : (height / 700.0);
 
                 final Widget child = GeneratedRectangle6Widget();
                 return Stack(children: [
@@ -46,7 +46,7 @@ class GeneratedGroup1Widget extends StatelessWidget {
               left: 11.0,
               top: 0.0,
               right: 11.0,
-              bottom: 78.0,
+              bottom: 10.0,
               width: null,
               height: null,
               child: GeneratedRectangle5Widget(),

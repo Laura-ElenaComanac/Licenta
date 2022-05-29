@@ -918,12 +918,313 @@ class $LoggedUserTable extends LoggedUser
   }
 }
 
+class PostEntry extends DataClass implements Insertable<PostEntry> {
+  final String id;
+  final String date;
+  final String description;
+  final String title;
+  final String userid;
+  PostEntry(
+      {required this.id,
+      required this.date,
+      required this.description,
+      required this.title,
+      required this.userid});
+  factory PostEntry.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return PostEntry(
+      id: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      date: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}date'])!,
+      description: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}description'])!,
+      title: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}title'])!,
+      userid: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}userid'])!,
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['date'] = Variable<String>(date);
+    map['description'] = Variable<String>(description);
+    map['title'] = Variable<String>(title);
+    map['userid'] = Variable<String>(userid);
+    return map;
+  }
+
+  LocalPostsCompanion toCompanion(bool nullToAbsent) {
+    return LocalPostsCompanion(
+      id: Value(id),
+      date: Value(date),
+      description: Value(description),
+      title: Value(title),
+      userid: Value(userid),
+    );
+  }
+
+  factory PostEntry.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return PostEntry(
+      id: serializer.fromJson<String>(json['id']),
+      date: serializer.fromJson<String>(json['date']),
+      description: serializer.fromJson<String>(json['description']),
+      title: serializer.fromJson<String>(json['title']),
+      userid: serializer.fromJson<String>(json['userid']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'date': serializer.toJson<String>(date),
+      'description': serializer.toJson<String>(description),
+      'title': serializer.toJson<String>(title),
+      'userid': serializer.toJson<String>(userid),
+    };
+  }
+
+  PostEntry copyWith(
+          {String? id,
+          String? date,
+          String? description,
+          String? title,
+          String? userid}) =>
+      PostEntry(
+        id: id ?? this.id,
+        date: date ?? this.date,
+        description: description ?? this.description,
+        title: title ?? this.title,
+        userid: userid ?? this.userid,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('PostEntry(')
+          ..write('id: $id, ')
+          ..write('date: $date, ')
+          ..write('description: $description, ')
+          ..write('title: $title, ')
+          ..write('userid: $userid')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, date, description, title, userid);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PostEntry &&
+          other.id == this.id &&
+          other.date == this.date &&
+          other.description == this.description &&
+          other.title == this.title &&
+          other.userid == this.userid);
+}
+
+class LocalPostsCompanion extends UpdateCompanion<PostEntry> {
+  final Value<String> id;
+  final Value<String> date;
+  final Value<String> description;
+  final Value<String> title;
+  final Value<String> userid;
+  const LocalPostsCompanion({
+    this.id = const Value.absent(),
+    this.date = const Value.absent(),
+    this.description = const Value.absent(),
+    this.title = const Value.absent(),
+    this.userid = const Value.absent(),
+  });
+  LocalPostsCompanion.insert({
+    required String id,
+    required String date,
+    required String description,
+    required String title,
+    required String userid,
+  })  : id = Value(id),
+        date = Value(date),
+        description = Value(description),
+        title = Value(title),
+        userid = Value(userid);
+  static Insertable<PostEntry> custom({
+    Expression<String>? id,
+    Expression<String>? date,
+    Expression<String>? description,
+    Expression<String>? title,
+    Expression<String>? userid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (date != null) 'date': date,
+      if (description != null) 'description': description,
+      if (title != null) 'title': title,
+      if (userid != null) 'userid': userid,
+    });
+  }
+
+  LocalPostsCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? date,
+      Value<String>? description,
+      Value<String>? title,
+      Value<String>? userid}) {
+    return LocalPostsCompanion(
+      id: id ?? this.id,
+      date: date ?? this.date,
+      description: description ?? this.description,
+      title: title ?? this.title,
+      userid: userid ?? this.userid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (date.present) {
+      map['date'] = Variable<String>(date.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (userid.present) {
+      map['userid'] = Variable<String>(userid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalPostsCompanion(')
+          ..write('id: $id, ')
+          ..write('date: $date, ')
+          ..write('description: $description, ')
+          ..write('title: $title, ')
+          ..write('userid: $userid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LocalPostsTable extends LocalPosts
+    with TableInfo<$LocalPostsTable, PostEntry> {
+  final GeneratedDatabase _db;
+  final String? _alias;
+  $LocalPostsTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<String?> id = GeneratedColumn<String?>(
+      'id', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      typeName: 'TEXT',
+      requiredDuringInsert: true);
+  final VerificationMeta _dateMeta = const VerificationMeta('date');
+  late final GeneratedColumn<String?> date = GeneratedColumn<String?>(
+      'date', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      typeName: 'TEXT',
+      requiredDuringInsert: true);
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  late final GeneratedColumn<String?> description = GeneratedColumn<String?>(
+      'description', aliasedName, false,
+      additionalChecks: GeneratedColumn.checkTextLength(
+          minTextLength: 1, maxTextLength: 1000),
+      typeName: 'TEXT',
+      requiredDuringInsert: true);
+  final VerificationMeta _titleMeta = const VerificationMeta('title');
+  late final GeneratedColumn<String?> title = GeneratedColumn<String?>(
+      'title', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      typeName: 'TEXT',
+      requiredDuringInsert: true);
+  final VerificationMeta _useridMeta = const VerificationMeta('userid');
+  late final GeneratedColumn<String?> userid = GeneratedColumn<String?>(
+      'userid', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      typeName: 'TEXT',
+      requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, date, description, title, userid];
+  @override
+  String get aliasedName => _alias ?? 'local_posts';
+  @override
+  String get actualTableName => 'local_posts';
+  @override
+  VerificationContext validateIntegrity(Insertable<PostEntry> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('date')) {
+      context.handle(
+          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('userid')) {
+      context.handle(_useridMeta,
+          userid.isAcceptableOrUnknown(data['userid']!, _useridMeta));
+    } else if (isInserting) {
+      context.missing(_useridMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PostEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return PostEntry.fromData(data, _db,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $LocalPostsTable createAlias(String alias) {
+    return $LocalPostsTable(_db, alias);
+  }
+}
+
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $LocalUsersTable localUsers = $LocalUsersTable(this);
   late final $LoggedUserTable loggedUser = $LoggedUserTable(this);
+  late final $LocalPostsTable localPosts = $LocalPostsTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [localUsers, loggedUser];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [localUsers, loggedUser, localPosts];
 }
