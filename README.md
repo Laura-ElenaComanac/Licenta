@@ -1,15 +1,12 @@
-# Licenta UBB:
-# Testarea Interfetelor Grafice (Graphical User Interface Testing)
+# Computer Science UBB Bachelor's Thesis: Graphical User Interface Testing
 
-
-# Projy:
-# Application for posting personal projects by users from all domains: https://youtu.be/UJ6zRjWspJo
-
+# Projy : https://youtu.be/UJ6zRjWspJo
+# Application for posting personal projects by users from all domains
 
 ## Flutter Mobile App
 ## Layered Client-Server architecture with Network Connection and Offline mode
-## Moor Sqlite Database for the frontend
-## JPA Mysql Database for the backend
+## Moor SQLite Database for the Flutter frontend
+## JPA MySQL Database for the Spring Boot backend
 ## REST API and WebSocket connected app to Spring Boot Server
 ## Figma Design
 
