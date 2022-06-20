@@ -437,6 +437,17 @@ class Bloc {
             if (value != null)
               {
                 logger.d('Updated user to server: ' + myuser.toString()),
+                addLoggedUser(LoggedUserCompanion.insert(
+                    id: value.id,
+                    username: value.username,
+                    password: value.password,
+                    firstname: value.firstname,
+                    lastname: value.lastname,
+                    gender: value.gender,
+                    email: value.email,
+                    birthday: value.birthday,
+                    location: value.location)),
+                logger.d('Added logged user in Update!'),
               }
             else
               {

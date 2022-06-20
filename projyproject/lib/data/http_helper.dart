@@ -18,7 +18,11 @@ import '../model/post.dart';
 class HttpHelper {
   // http://localhost:8080/users
 
-  final String authority = '192.168.0.118:8080';
+  var logger = Logger();
+
+  //final String authority = 'http://localhost:8080'; // obtain
+  final String authority =
+      '192.168.0.118:8080'; // system prefereneces -> network -> ip adress
   final String path = 'users';
   final String addpath = 'user/add';
   final String updatepath = 'user/update';
@@ -27,8 +31,6 @@ class HttpHelper {
   final String post_path = 'posts';
   final String post_addpath = 'post/add';
   final String post_filter = 'post/filter';
-
-  var logger = Logger();
 
   // final channel = WebSocketChannel.connect(
   //   Uri.parse('ws://localhost:8080/topic/destination'),

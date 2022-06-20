@@ -15,7 +15,8 @@ import 'package:stomp_dart_client/stomp_frame.dart';
 class WebSocketHelper {
   var logger = Logger();
   late StompClient? stompClient = null;
-  final socketUrl = 'http://192.168.0.118:8080/ws-message';
+  final socketUrl =
+      'http://192.168.0.118:8080/ws-message'; // system prefereneces -> network -> ip adress
   //final Database db = Database();
   Bloc bloc;
 
